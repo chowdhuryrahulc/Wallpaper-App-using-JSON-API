@@ -1,17 +1,20 @@
 //? Returns List of CatagoriesModel. We create ListView in Home.dart
+
 import 'package:wallpaper/modals/categories_model.dart';
 
 String apiKey = ' 563492ad6f91700001000001998d19baa2ee4135b9134ada76ef05e8';
 //? Add this inside .gitignore
 
 List<CategorieModel> getCategories() {
-  List<CategorieModel> categories = List(); //? created List of categoriesModel
+  List<CategorieModel> categories = []; //? created List of categoriesModel
   // We have to save Data to List of ctegoriesModel
   // We do that by providing value to below constructor, then save to List<categorieModel> as above,
   // then create new below Constructor, then save again and on and on
   CategorieModel categorieModel = CategorieModel();
 
   //
+  // SETTERS(set the value): categorieModel.imgUrl & categorieModel.categorieName
+  // GETTERS: in home.dart
   categorieModel.imgUrl =
       "https://images.pexels.com/photos/545008/pexels-photo-545008.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500";
   categorieModel.categorieName = "Street Art";

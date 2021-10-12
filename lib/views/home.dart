@@ -4,13 +4,15 @@
 //Map is collection of Key Value pair
 //? If JSON starts with { means we are getting a Map back
 //? If starts with [ means we are getting a List of Maps back
-// his APIkey:  563492ad6f9170000100000176c2c175fccd4ef49048d87c28263ebf
 
 //In this case we want src => portrait value
+
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:wallpaper/data/data.dart';
 import 'package:wallpaper/modals/categories_model.dart';
+import 'package:wallpaper/modals/wallpaper_model.dart';
 import 'package:wallpaper/widgets/widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,17 +24,40 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<CategorieModel> categories = List();
+  List<CategorieModel> categories = [];
+  List<WallpaperModel> wallpapers =
+      []; //Same what we did for CatagorieModel in data.dart
+  // Getter Example: wallpaper[index].src.portrait
 
-  getTrendingWallpaper() {
+  getTrendingWallpaper() async {
     //! WTF is Uri.parse????
     // get bcoz this is a GET request
-    var response = http
-        .get(Uri.parse('https://api.pexels.com/v1/curated?per_page=15&page=1'));
+    // In some we pass API key in URL. in some, as this one in hedders
+    var response = await http.get(
+        Uri.parse('https://api.pexels.com/v1/curated?per_page=15&page=1'),
+        headers: {'Authorization': apiKey});
+    // print(response.body.toString());
+    Map<String, dynamic> jsonData =
+        jsonDecode(response.body); //Creates JSON from response.body
+    //Key we want is 'photoes'
+    //forEach is a Loop
+    // If it is a List of Maps [], we go in and take 1st List item, then 2nd, then 3rd and so on
+    // Element is 1st List item, and so on
+    // but element is compleate list. We need individual values
+    jsonData['photos'].forEach((element) {
+      WallpaperModel wallpaperModel = WallpaperModel();
+      // wallpaperModel = jsonData["id"] => cant do bcoz we need individual values
+      //Thsts why we use factory constructor in WallpaperModel
+      wallpaperModel =
+          WallpaperModel.fromMap(element); //element here is JSON data
+      wallpapers.add(wallpaperModel);
+    });
+    setState(() {});
   }
 
   @override
   void initState() {
+    getTrendingWallpaper();
     categories = getCategories();
     super.initState();
   }
@@ -45,48 +70,53 @@ class _HomeState extends State<Home> {
         title: brandName(),
         elevation: 0.0,
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  color: Color(
-                      0xfff5f8fd), //? HexCode of this colour. To Learn (Oxff defines Opacity)
-                  borderRadius: BorderRadius.circular(30)),
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              margin: EdgeInsets.symmetric(
-                  horizontal: 24), //? Padding is Inside, Margin is Outside
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      //? TextField is an INPUT DETECTOR. It will show in Debug Console
-                      decoration: InputDecoration(
-                          hintText: "search wallpaper",
-                          border: InputBorder.none),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Color(
+                        0xfff5f8fd), //? HexCode of this colour. To Learn (Oxff defines Opacity)
+                    borderRadius: BorderRadius.circular(30)),
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                margin: EdgeInsets.symmetric(
+                    horizontal: 24), //? Padding is Inside, Margin is Outside
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        //? TextField is an INPUT DETECTOR. It will show in Debug Console
+                        decoration: InputDecoration(
+                            hintText: "search wallpaper",
+                            border: InputBorder.none),
+                      ),
                     ),
-                  ),
-                  Icon(Icons.search)
-                ],
+                    Icon(Icons.search)
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Container(
-              height: 80,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: categories.length,
-                  itemBuilder: (context, index) {
-                    return CategoriesTile(
-                        title: categories[index].categorieName!,
-                        imgUrl: categories[index].imgUrl!);
-                  }),
-            )
-          ],
+              SizedBox(
+                height: 16,
+              ),
+              Container(
+                height: 80,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: categories.length,
+                    itemBuilder: (context, index) {
+                      return CategoriesTile(
+                          //GETTERS(get the value): categories[index].categorieName!, categories[index].imgUrl!
+                          //SETTERS: in data.dart
+                          title: categories[index].categorieName!,
+                          imgUrl: categories[index].imgUrl!);
+                    }),
+              ),
+              wallpaperList(wallpapers: wallpapers, context: context)
+            ],
+          ),
         ),
       ),
     );
@@ -115,7 +145,10 @@ class CategoriesTile extends StatelessWidget {
                   fit: BoxFit.cover,
                 )),
             Container(
-              color: Colors.black26,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.black26,
+              ),
               height: 50,
               width: 100,
               alignment: Alignment.center,
