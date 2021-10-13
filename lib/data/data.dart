@@ -6,8 +6,8 @@ String apiKey = ' 563492ad6f91700001000001998d19baa2ee4135b9134ada76ef05e8';
 //? Add this inside .gitignore
 
 List<CategorieModel> getCategories() {
-  List<CategorieModel> categories = []; //? created List of categoriesModel
-  // We have to save Data to List of ctegoriesModel
+  //TODO We have to save Data to this List
+  List<CategorieModel> categories = []; // created List of categoriesModel
   // We do that by providing value to below constructor, then save to List<categorieModel> as above,
   // then create new below Constructor, then save again and on and on
   CategorieModel categorieModel = CategorieModel();

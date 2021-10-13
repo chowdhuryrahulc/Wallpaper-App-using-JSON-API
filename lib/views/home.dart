@@ -36,6 +36,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  //WE ADD DATA TO THIS LIST BY EQUATING IT TO RETURN OF data.dart.
   List<CategorieModel> categories = [];
   List<WallpaperModel> wallpapers =
       []; //Same what we did for CatagorieModel in data.dart
@@ -70,8 +71,9 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    getTrendingWallpaper();
-    categories = getCategories();
+    getTrendingWallpaper(); //TODO for bigger VERTIVAL LISTVIEW
+    // FROM data.dart
+    categories = getCategories(); //TODO  for small HORIZONTAL LIST VIEW
     super.initState();
   }
 
@@ -81,6 +83,7 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: brandName(),
+        backgroundColor: Colors.white,
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
@@ -88,6 +91,7 @@ class _HomeState extends State<Home> {
           child: Column(
             children: [
               Container(
+                //TODOSEARCH BAR
                 decoration: BoxDecoration(
                     color: Color(
                         0xfff5f8fd), //? HexCode of this colour. To Learn (Oxff defines Opacity)
@@ -123,9 +127,11 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: 16,
               ),
-              Container(
+              SizedBox(
                 height: 80,
+                //! Where is Navigator.push and Gesture Detector?
                 child: ListView.builder(
+                    //TODO HORIZONTAL SCROLL VIEW LEADING TO catagorie.dart
                     shrinkWrap: true,
                     padding: EdgeInsets.symmetric(horizontal: 24),
                     scrollDirection: Axis.horizontal,
@@ -134,10 +140,12 @@ class _HomeState extends State<Home> {
                       return CategoriesTile(
                           //GETTERS(get the value): categories[index].categorieName!, categories[index].imgUrl!
                           //SETTERS: in data.dart
-                          title: categories[index].categorieName!,
+                          title: categories[index]
+                              .categorieName!, //TODO GET DATA FROM LIST
                           imgUrl: categories[index].imgUrl!);
                     }),
               ),
+              //TODO LEADS TO widget.dart
               wallpaperList(wallpapers: wallpapers, context: context)
             ],
           ),
@@ -155,36 +163,45 @@ class CategoriesTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.only(right: 4),
-        child: Stack(
-          children: [
-            ClipRRect(
-                //! What is ClipRReact?
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  imgUrl,
-                  height: 50,
-                  width: 100,
-                  fit: BoxFit.cover,
-                )),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.black26,
-              ),
-              height: 50,
-              width: 100,
-              alignment: Alignment.center,
-              child: Text(
-                title,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15),
-              ),
-            )
-          ],
-        ));
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                // onchanged in searchQuery makes update one letter at a time
+                builder: (context) => Categorie(catagorieName: title)));
+      },
+      child: Container(
+          margin: EdgeInsets.only(right: 4),
+          child: Stack(
+            children: [
+              ClipRRect(
+                  //! What is ClipRReact?
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    imgUrl, //TODO comes from catagories.dart
+                    height: 50,
+                    width: 100,
+                    fit: BoxFit.cover,
+                  )),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.black26,
+                ),
+                height: 50,
+                width: 100,
+                alignment: Alignment.center,
+                child: Text(
+                  title,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15),
+                ),
+              )
+            ],
+          )),
+    );
   }
 }

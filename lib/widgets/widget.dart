@@ -2,19 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:wallpaper/modals/wallpaper_model.dart';
-import 'package:wallpaper/modals/wallpaper_model.dart';
-import 'package:wallpaper/modals/wallpaper_model.dart';
-import 'package:wallpaper/views/catagorie.dart';
 import 'package:wallpaper/views/image_view.dart';
 
 Widget brandName() {
-  return RichText(
-    text: TextSpan(
-      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-      children: const <TextSpan>[
-        TextSpan(text: 'Wallpaper', style: TextStyle(color: Colors.black87)),
-        TextSpan(text: 'Hub', style: TextStyle(color: Colors.blue)),
-      ],
+  return Center(
+    child: RichText(
+      text: TextSpan(
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+        children: const <TextSpan>[
+          TextSpan(text: 'Wallpaper', style: TextStyle(color: Colors.black87)),
+          TextSpan(text: 'Hub', style: TextStyle(color: Colors.blue)),
+        ],
+      ),
     ),
   );
 }

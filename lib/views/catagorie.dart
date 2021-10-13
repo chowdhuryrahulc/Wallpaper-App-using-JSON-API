@@ -17,7 +17,6 @@ class Categorie extends StatefulWidget {
 
 class _CategorieState extends State<Categorie> {
   List<WallpaperModel> wallpapers = [];
-  // TextEditingController searchController = TextEditingController();
 
   getSearchWallpaper(String query) async {
     var response = await http.get(
@@ -46,6 +45,7 @@ class _CategorieState extends State<Categorie> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: brandName(),
+        backgroundColor: Colors.white,
         elevation: 0.0,
       ),
       body: SingleChildScrollView(

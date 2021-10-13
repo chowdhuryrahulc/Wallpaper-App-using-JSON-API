@@ -47,6 +47,7 @@ class _SearchState extends State<Search> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: brandName(),
+        backgroundColor: Colors.white,
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
