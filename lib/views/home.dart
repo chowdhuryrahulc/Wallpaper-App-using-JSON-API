@@ -1,4 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable, avoid_unnecessary_containers
+//! Search.dart and catagorie.dart are simple copies of home.dart with some changes
+// Dont spend much time on those
+
 //? Inside JSON we have Map or List of Map
 //List is collection of item of one kind
 //Map is collection of Key Value pair
@@ -13,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:wallpaper/data/data.dart';
 import 'package:wallpaper/modals/categories_model.dart';
 import 'package:wallpaper/modals/wallpaper_model.dart';
+import 'package:wallpaper/views/catagorie.dart';
+import 'package:wallpaper/views/image_view.dart';
 import 'package:wallpaper/views/search.dart';
 import 'package:wallpaper/widgets/widget.dart';
 import 'package:http/http.dart' as http;
@@ -144,36 +149,54 @@ class CategoriesTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.only(right: 4),
-        child: Stack(
-          children: [
-            ClipRRect(
-                //! What is ClipRReact?
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  imgUrl,
-                  height: 50,
-                  width: 100,
-                  fit: BoxFit.cover,
-                )),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.black26,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    Categorie(catagorieName: title.toLowerCase())));
+      },
+      child: Container(
+          margin: EdgeInsets.only(right: 4),
+          child: Stack(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ImageView()));
+                },
+                child: Hero(
+                  tag: imgUrl,
+                  child: ClipRRect(
+                      //! What is ClipRReact?
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        imgUrl,
+                        height: 50,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      )),
+                ),
               ),
-              height: 50,
-              width: 100,
-              alignment: Alignment.center,
-              child: Text(
-                title,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15),
-              ),
-            )
-          ],
-        ));
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.black26,
+                ),
+                height: 50,
+                width: 100,
+                alignment: Alignment.center,
+                child: Text(
+                  title,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15),
+                ),
+              )
+            ],
+          )),
+    );
   }
 }

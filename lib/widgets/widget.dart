@@ -4,18 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:wallpaper/modals/wallpaper_model.dart';
 
 Widget brandName() {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Text(
-        "Wallpaper",
-        style: TextStyle(color: Colors.black87),
-      ),
-      Text(
-        "Hub",
-        style: TextStyle(color: Colors.blue),
-      )
-    ],
+  return RichText(
+    text: TextSpan(
+      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      children: const <TextSpan>[
+        TextSpan(text: 'Wallpaper', style: TextStyle(color: Colors.black87)),
+        TextSpan(text: 'Hub', style: TextStyle(color: Colors.blue)),
+      ],
+    ),
   );
 }
 
