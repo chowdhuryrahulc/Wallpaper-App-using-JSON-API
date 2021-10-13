@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:wallpaper/data/data.dart';
 import 'package:wallpaper/modals/categories_model.dart';
 import 'package:wallpaper/modals/wallpaper_model.dart';
+import 'package:wallpaper/views/search.dart';
 import 'package:wallpaper/widgets/widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -28,6 +29,7 @@ class _HomeState extends State<Home> {
   List<WallpaperModel> wallpapers =
       []; //Same what we did for CatagorieModel in data.dart
   // Getter Example: wallpaper[index].src.portrait
+  TextEditingController searchController = TextEditingController();
 
   getTrendingWallpaper() async {
     //! WTF is Uri.parse????
@@ -87,12 +89,23 @@ class _HomeState extends State<Home> {
                     Expanded(
                       child: TextField(
                         //? TextField is an INPUT DETECTOR. It will show in Debug Console
+                        controller: searchController,
                         decoration: InputDecoration(
                             hintText: "search wallpaper",
                             border: InputBorder.none),
                       ),
                     ),
-                    Icon(Icons.search)
+                    InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  // onchanged in searchQuery makes update one letter at a time
+                                  builder: (context) => Search(
+                                        searchQuery: searchController.text,
+                                      )));
+                        },
+                        child: Container(child: Icon(Icons.search)))
                   ],
                 ),
               ),

@@ -38,7 +38,7 @@ Widget wallpaperList({required List<WallpaperModel> wallpapers, context}) {
         return GridTile(
             child: Container(
           child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(16),
               child: Image.network(
                 e.srcModel!.portrait!,
                 fit: BoxFit.cover,
