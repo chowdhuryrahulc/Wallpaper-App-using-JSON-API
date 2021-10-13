@@ -22,6 +22,12 @@ import 'package:wallpaper/views/search.dart';
 import 'package:wallpaper/widgets/widget.dart';
 import 'package:http/http.dart' as http;
 
+// import 'package:image_gallery_saver/image_gallery_saver.dart';
+// import 'package:permission_handler/permission_handler.dart';
+// import 'package:random_string/random_string.dart';
+// import 'package:dio/dio.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -149,54 +155,36 @@ class CategoriesTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    Categorie(catagorieName: title.toLowerCase())));
-      },
-      child: Container(
-          margin: EdgeInsets.only(right: 4),
-          child: Stack(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ImageView()));
-                },
-                child: Hero(
-                  tag: imgUrl,
-                  child: ClipRRect(
-                      //! What is ClipRReact?
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        imgUrl,
-                        height: 50,
-                        width: 100,
-                        fit: BoxFit.cover,
-                      )),
-                ),
+    return Container(
+        margin: EdgeInsets.only(right: 4),
+        child: Stack(
+          children: [
+            ClipRRect(
+                //! What is ClipRReact?
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  imgUrl,
+                  height: 50,
+                  width: 100,
+                  fit: BoxFit.cover,
+                )),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.black26,
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.black26,
-                ),
-                height: 50,
-                width: 100,
-                alignment: Alignment.center,
-                child: Text(
-                  title,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15),
-                ),
-              )
-            ],
-          )),
-    );
+              height: 50,
+              width: 100,
+              alignment: Alignment.center,
+              child: Text(
+                title,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15),
+              ),
+            )
+          ],
+        ));
   }
 }
